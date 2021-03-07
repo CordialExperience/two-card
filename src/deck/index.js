@@ -34,7 +34,7 @@ export class Deck {
   }
 
   drawRandomCard() {
-    // todo handle if deck is empty
+    // TODO handle if deck is empty
     const i = Math.floor(Math.random() * this.cards.length);
     return this.cards.splice(i, 1)[0];
   }
