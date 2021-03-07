@@ -1,5 +1,5 @@
 import Deck from "./deck";
-import { createColorGenerator } from "./colors";
+import { colorGenerator } from "./colors";
 
 /**
  * @typedef Hand
@@ -32,7 +32,7 @@ export function dealCards(handsNumber, cardsPerHand) {
       if (hands[handI] === undefined) {
         hands[handI] = { cards: [], colors: [], pairs: 0 };
         cardsThatExist[handI] = new Map();
-        colorGenerators[handI] = createColorGenerator();
+        colorGenerators[handI] = colorGenerator();
       }
 
       const hand = hands[handI];

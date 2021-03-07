@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Player, Footer } from "./components";
 import {
-  getWinners,
+  getMaxValueIndices,
   dealCards,
   maxHands,
   minHands,
@@ -12,10 +12,6 @@ import {
 import "./App.css";
 
 function buildWinnerString(winners, totalHandsNumber) {
-  if (winners === undefined) {
-    return;
-  }
-
   if (winners.length === 1) {
     return `Player ${winners[0] + 1} wins!`;
   } else if (winners.length < totalHandsNumber) {
@@ -48,15 +44,21 @@ function App() {
 
   return (
     <div className="App">
-      <main>
-        {/* Might want to have semantically correct ul & li's here, but we'll ignore that for now */}
-        {hands &&
-          hands.map((hand, i) => <Player key={i} hand={hand} number={i + 1} />)}
-        <hr />
-        <h2 className="winnerString">
-          {buildWinnerString(getWinners(hands), handsNumber)}
-        </h2>
-      </main>
+      {hands && (
+        <main>
+          {/* Might want to have semantically correct ul & li's here, but we'll ignore that for now */}
+          {hands.map((hand, i) => (
+            <Player key={i} hand={hand} number={i + 1} />
+          ))}
+          <hr />
+          <h2 className="winnerString">
+            {buildWinnerString(
+              getMaxValueIndices(hands.map((h) => h.pairs)),
+              handsNumber
+            )}
+          </h2>
+        </main>
+      )}
       <Footer
         addHand={addHand}
         removeHand={removeHand}

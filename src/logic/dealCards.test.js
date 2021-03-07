@@ -1,6 +1,6 @@
 import { dealCards } from "./dealCards";
 import Deck from "./deck";
-import { createColorGenerator } from "./colors";
+import { colorGenerator } from "./colors";
 
 jest.mock("./deck");
 jest.mock("./colors");
@@ -58,7 +58,7 @@ beforeEach(() => {
     }
   };
 
-  createColorGenerator.mockImplementation(colorsGenerator);
+  colorGenerator.mockImplementation(colorsGenerator);
 });
 
 describe("logic/dealCards", () => {

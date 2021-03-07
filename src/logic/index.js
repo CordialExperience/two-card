@@ -2,4 +2,4 @@ export * from './colors';
 export * from './constants';
 export * from './dealCards';
 export * from './deck';
-export * from './getWinners';
+export * from './getMaxValueIndices';
