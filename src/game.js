@@ -1,5 +1,26 @@
 import { Deck } from "./deck";
-import { identifyPairs } from "./handlePairs";
+import { getNewColor } from "./colors";
+
+// export function identifyPairs(hand) {
+//   const map = new Map();
+//   const colors = getNewColor();
+//   const assignedColors = [];
+//   let pairs = 0;
+
+//   for (let [i, [, value]] of hand.entries()) {
+//     if (!map.has(value)) {
+//       map.set(value, i);
+//     } else {
+//       const color = colors.next().value;
+//       assignedColors[map.get(value)] = color;
+//       assignedColors[i] = color;
+//       pairs++;
+//       map.delete(value);
+//     }
+//   }
+
+//   return [assignedColors, pairs];
+// }
 
 export function dealCards(handsNumber, cardsPerHand) {
   const deck = new Deck();
@@ -22,9 +43,25 @@ export function dealCards(handsNumber, cardsPerHand) {
 
   // TODO!!!!!!!!
   for (let hand of hands) {
-    const pairs = identifyPairs(hand.cards);
-    hand.colors = pairs[0];
-    hand.pairs = pairs[1];
+    const map = new Map();
+    const colors = getNewColor();
+    const assignedColors = [];
+    let pairs = 0;
+
+    for (let [i, [, value]] of hand.cards.entries()) {
+      if (!map.has(value)) {
+        map.set(value, i);
+      } else {
+        const color = colors.next().value;
+        assignedColors[map.get(value)] = color;
+        assignedColors[i] = color;
+        pairs++;
+        map.delete(value);
+      }
+    }
+
+    hand.colors = assignedColors;
+    hand.pairs = pairs;
   }
 
   return hands;

@@ -58,11 +58,6 @@ function App() {
 
       <h2 className="winnerString">{buildWinnerString(getWinner(hands))}</h2>
 
-      {/* Might want to deal cards automatically upon app start instead; it was not specified */}
-      {hands === undefined && (
-        <h2>Please click the "Deal Cards" button to start the game!</h2>
-      )}
-
       <div>
         <button
           onClick={addHand}
