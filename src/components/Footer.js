@@ -1,7 +1,8 @@
 import React from 'react';
+import './Footer.css';
 
 export default function Footer({ addHand, removeHand, play, handsNumber, maxHands, minHands }) {
-  return <footer>
+  return <footer className="Footer">
     <div>
       <button
         onClick={addHand}

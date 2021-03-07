@@ -1,13 +1,6 @@
 import { Deck } from "./deck";
 import { createColorGenerator } from "./colors";
 
-export const maxHands = 4;
-export const minHands = 2;
-export const initialHands = 2;
-
-// NOTE: If we ever want to increase the number of cards in hand, we'd have to add more colors to the colors array
-export const cardsPerHand = 7;
-
 export function dealCards(handsNumber, cardsPerHand) {
   const deck = new Deck();
   const hands = [];
@@ -47,23 +40,4 @@ export function dealCards(handsNumber, cardsPerHand) {
   }
 
   return hands;
-}
-
-export function getWinners(hands) {
-  if (hands === undefined) {
-    return;
-  }
-
-  const scoreMap = new Map();
-
-  for (let i = 0; i < hands.length; i++) {
-    const pairs = hands[i].pairs;
-    if (!scoreMap.has(pairs)) {
-      scoreMap.set(pairs, [i]);
-    } else {
-      scoreMap.get(pairs).push(i);
-    }
-  }
-
-  return scoreMap.get(Math.max(...scoreMap.keys()));
 }
