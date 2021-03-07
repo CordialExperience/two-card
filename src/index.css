@@ -18,6 +18,10 @@ h1 {
     padding: 1px;
 }
 
+.winnerString {
+    text-align: center;
+}
+
 
 /* Button */
 .play-button {

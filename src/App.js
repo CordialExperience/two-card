@@ -26,9 +26,27 @@ function dealCards(handsNumber, cardsPerHand) {
   return hands;
 }
 
+function getWinner(hands) {
+  if (hands === undefined) {
+    return;
+  }
+
+  const scoreMap = new Map();
+
+  for (let i = 0; i < hands.length; i++) {
+    const pairs = hands[i].pairs;
+    if (!scoreMap.has(pairs)) {
+      scoreMap.set(pairs, [i]);
+    } else {
+      scoreMap.get(pairs).push(i);
+    }
+  }
+
+  return scoreMap.get(Math.max(...scoreMap.keys()));
+}
+
 function App() {
   const [hands, setHands] = useState();
-  const [winner, setWinner] = useState();
 
   const handsNumber = 2;
   // NOTE: If we want to increase the number of cards in hand, we'd have to add more colors to the colors array
@@ -43,23 +61,7 @@ function App() {
       hand.pairs = pairs[1];
     }
 
-    function getWinner(hands) {
-      const scoreMap = new Map();
-
-      for (let i = 0; i < hands.length; i++) {
-        const pairs = hands[i].pairs;
-        if (!scoreMap.has(pairs)) {
-          scoreMap.set(pairs, [i]);
-        } else {
-          scoreMap.get(pairs).push(i);
-        }
-      }
-
-      return scoreMap.get(Math.max(...scoreMap.keys()));
-    }
-
     setHands(hands);
-    setWinner(getWinner(hands));
   }
 
   function buildWinnerString(winners) {
@@ -88,7 +90,7 @@ function App() {
           </Fragment>
         ))}
 
-      <h2>{buildWinnerString(winner)}</h2>
+      <h2 class="winnerString">{buildWinnerString(getWinner(hands))}</h2>
 
       {/* Might want to deal cards automatically upon app start instead; it was not specified */}
       {hands === undefined && (
