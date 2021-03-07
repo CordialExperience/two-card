@@ -16,7 +16,7 @@ const values = [
   "A",
 ];
 
-export function fullDeck() {
+function fullDeck() {
   const res = [];
 
   for (let suit of suits) {
@@ -26,4 +26,16 @@ export function fullDeck() {
   }
 
   return res;
+}
+
+export class Deck {
+  constructor() {
+    this.cards = fullDeck();
+  }
+
+  drawRandomCard() {
+    // todo handle if deck is empty
+    const i = Math.floor(Math.random() * this.cards.length);
+    return this.cards.splice(i, 1)[0];
+  }
 }
