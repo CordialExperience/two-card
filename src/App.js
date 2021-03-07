@@ -1,49 +1,7 @@
 import React, { useState, Fragment, useEffect } from "react";
 import "./App.css";
-import { Deck } from "./deck";
 import Hand from "./hand";
-import { identifyPairs } from "./handlePairs";
-
-function dealCards(handsNumber, cardsPerHand) {
-  const deck = new Deck();
-  const hands = [];
-
-  // In real-life games, we draw cards by 1 for each player.
-  // We emulate the same process here (might be useful if we want to add animations later)
-  for (let cardI = 0; cardI < cardsPerHand; cardI++) {
-    for (let handI = 0; handI < handsNumber; handI++) {
-      if (hands[handI] === undefined) {
-        hands[handI] = { cards: [] };
-      }
-
-      hands[handI].cards.push(deck.drawRandomCard());
-
-      // Technically, we could use this same loop to find pairs, and such approach be more performant.
-      // But conceptually it might make more sense to decouple the logic and deal the cards first, and only start identifying pairs afterwards.
-    }
-  }
-
-  return hands;
-}
-
-function getWinner(hands) {
-  if (hands === undefined) {
-    return;
-  }
-
-  const scoreMap = new Map();
-
-  for (let i = 0; i < hands.length; i++) {
-    const pairs = hands[i].pairs;
-    if (!scoreMap.has(pairs)) {
-      scoreMap.set(pairs, [i]);
-    } else {
-      scoreMap.get(pairs).push(i);
-    }
-  }
-
-  return scoreMap.get(Math.max(...scoreMap.keys()));
-}
+import { getWinner, dealCards } from "./game";
 
 const maxHands = 4;
 const minHands = 2;
@@ -57,16 +15,7 @@ function App() {
   const [hands, setHands] = useState();
 
   function play() {
-    const hands = dealCards(handsNumber, cardsPerHand);
-
-    // TODO!!!!!!!!
-    for (let hand of hands) {
-      const pairs = identifyPairs(hand.cards);
-      hand.colors = pairs[0];
-      hand.pairs = pairs[1];
-    }
-
-    setHands(hands);
+    setHands(dealCards(handsNumber, cardsPerHand));
   }
 
   useEffect(play, [handsNumber]);

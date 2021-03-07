@@ -33,6 +33,12 @@ h1 {
     padding: 0.5em 2em;
 }
 
+.change-hands-number-button:disabled {
+    cursor: not-allowed;
+    color: gray;
+    border-color: gray;
+    background-color: #5a3642;
+}
 
 /* Button */
 .play-button {
