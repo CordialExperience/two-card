@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import "./App.css";
 import { Deck } from "./deck";
 import Hand from "./hand";
@@ -45,16 +45,21 @@ function getWinner(hands) {
   return scoreMap.get(Math.max(...scoreMap.keys()));
 }
 
-function App() {
-  const [hands, setHands] = useState();
+const maxHands = 4;
+const minHands = 2;
+const initialHands = 2;
 
-  const handsNumber = 2;
-  // NOTE: If we want to increase the number of cards in hand, we'd have to add more colors to the colors array
-  const cardsPerHand = 7;
+// NOTE: If we ever want to increase the number of cards in hand, we'd have to add more colors to the colors array
+const cardsPerHand = 7;
+
+function App() {
+  const [handsNumber, setHandsNumber] = useState(initialHands);
+  const [hands, setHands] = useState();
 
   function play() {
     const hands = dealCards(handsNumber, cardsPerHand);
 
+    // TODO!!!!!!!!
     for (let hand of hands) {
       const pairs = identifyPairs(hand.cards);
       hand.colors = pairs[0];
@@ -64,18 +69,30 @@ function App() {
     setHands(hands);
   }
 
+  useEffect(play, [handsNumber]);
+
   function buildWinnerString(winners) {
     if (winners === undefined) {
       return;
     }
 
     if (winners.length === 1) {
-      return `Player ${winners[0]} wins!`;
+      return `Player ${winners[0] + 1} wins!`;
     } else if (winners.length < handsNumber) {
-      return `Players` + winners.map(i => i + 1).join(', ') + `are the winners!`
+      return (
+        `Players ` + winners.map((i) => i + 1).join(", ") + ` are the winners!`
+      );
     } else {
-      return `Tie! No winners.`
+      return `Tie! No winners.`;
     }
+  }
+
+  function addHand() {
+    setHandsNumber(handsNumber + 1);
+  }
+
+  function removeHand() {
+    setHandsNumber(handsNumber - 1);
   }
 
   return (
@@ -90,12 +107,29 @@ function App() {
           </Fragment>
         ))}
 
-      <h2 class="winnerString">{buildWinnerString(getWinner(hands))}</h2>
+      <h2 className="winnerString">{buildWinnerString(getWinner(hands))}</h2>
 
       {/* Might want to deal cards automatically upon app start instead; it was not specified */}
       {hands === undefined && (
         <h2>Please click the "Deal Cards" button to start the game!</h2>
       )}
+
+      <div>
+        <button
+          onClick={addHand}
+          disabled={handsNumber >= maxHands}
+          className="change-hands-number-button"
+        >
+          Add a hand
+        </button>
+        <button
+          onClick={removeHand}
+          disabled={handsNumber <= minHands}
+          className="change-hands-number-button"
+        >
+          Remove a hand
+        </button>
+      </div>
 
       <div>
         <button className="play-button" onClick={() => play()}>
