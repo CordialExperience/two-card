@@ -7,7 +7,7 @@ function dealCards(hands, cardsPerHand) {
   const deck = new Deck();
   const res = [];
 
-  // In real life games, we draw cards by 1 for each player.
+  // In real-life games, we draw cards by 1 for each player.
   // We emulate the same process here (might be useful if we want to add animations later)
   for (let cardI = 0; cardI < cardsPerHand; cardI++) {
     for (let handI = 0; handI < hands; handI++) {
@@ -25,8 +25,11 @@ function dealCards(hands, cardsPerHand) {
 function App() {
   const [hands, setHands] = useState([]);
 
+  const handsNumber = 2;
+  const cardsPerHand = 7
+
   function play() {
-    setHands(dealCards(2,7));
+    setHands(dealCards(handsNumber, cardsPerHand));
   }
 
   return (
