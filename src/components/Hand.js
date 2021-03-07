@@ -4,7 +4,6 @@ import Card from "./Card";
 import './Hand.css';
 
 export default function Hand({ cards, colors }) {
-  // We might want to define the coloring for cards in a more sophisticated way, but it should be fine for now
   return (
     <div className="Hand">
       {cards.map((c, i) => (

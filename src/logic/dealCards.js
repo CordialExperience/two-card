@@ -1,9 +1,26 @@
-import { Deck } from "./deck";
+import Deck from "./deck";
 import { createColorGenerator } from "./colors";
 
+/**
+ * @typedef Hand
+ * @type {object}
+ * @property {string[][]} cards - array of cards in the hand.
+ * @property {string[]} colors - specific colors to be used for specific card indices (if undefined, don't apply color).
+ * @property {number} pairs - total number of pairs in hand.
+ */
+
+/**
+ * Deal a specific number of cards to a specified number of hands (players), identify the number of pairs in each hand and assign colors to each of the cards that belong to pairs.
+ * @param {number} handsNumber The number of hands to deal the cards to.
+ * @param {number} cardsPerHand The number of cards to deal to each hand.
+ *
+ * @returns {Hand[]} Array of hands
+ */
 export function dealCards(handsNumber, cardsPerHand) {
   const deck = new Deck();
   const hands = [];
+  // Conceptually it might make more sense to decouple the logic and deal the cards first, and only start identifying pairs afterwards.
+  // But for this game we may do everything in just a single loop
   const cardsThatExist = [];
   const colorGenerators = [];
 
@@ -33,9 +50,6 @@ export function dealCards(handsNumber, cardsPerHand) {
         hand.pairs++;
         cardsThatExist[handI].delete(newCardValue);
       }
-
-      // Conceptually it might make more sense to decouple the logic and deal the cards first, and only start identifying pairs afterwards.
-      // But for this game we may do everything in a single loop
     }
   }
 
