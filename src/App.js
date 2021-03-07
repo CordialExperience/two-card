@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Player from "./player";
-import { getWinners, dealCards } from "./game";
-
-const maxHands = 4;
-const minHands = 2;
-const initialHands = 2;
-
-// NOTE: If we ever want to increase the number of cards in hand, we'd have to add more colors to the colors array
-const cardsPerHand = 7;
+import { getWinners, dealCards, maxHands, minHands, initialHands, cardsPerHand } from "./game";
+import Footer from "./footer";
 
 function App() {
   const [handsNumber, setHandsNumber] = useState(initialHands);
@@ -55,30 +49,7 @@ function App() {
         <hr />
         <h2 className="winnerString">{buildWinnerString(getWinners(hands))}</h2>
       </main>
-      <footer>
-        <div>
-          <button
-            onClick={addHand}
-            disabled={handsNumber >= maxHands}
-            className="change-hands-number-button"
-          >
-            Add a hand
-          </button>
-          <button
-            onClick={removeHand}
-            disabled={handsNumber <= minHands}
-            className="change-hands-number-button"
-          >
-            Remove a hand
-          </button>
-        </div>
-
-        <div>
-          <button className="play-button" onClick={play}>
-            Deal Cards
-          </button>
-        </div>
-      </footer>
+        <Footer addHand={addHand} removeHand={removeHand} play={play} handsNumber={handsNumber} maxHands={maxHands} minHands={minHands} />
     </div>
   );
 }
