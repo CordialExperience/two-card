@@ -2,7 +2,7 @@
 // If we want to increase the number, we have to add more colors here.
 const colors = ["yellow", "blue", "black"];
 
-export function* getNewColor() {
+export function* createColorGenerator() {
   for (let color of colors) {
     yield color;
   }

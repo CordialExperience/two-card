@@ -1,7 +1,7 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-import Hand from "./hand";
-import { getWinner, dealCards } from "./game";
+import Player from "./player";
+import { getWinners, dealCards } from "./game";
 
 const maxHands = 4;
 const minHands = 2;
@@ -14,10 +14,7 @@ function App() {
   const [handsNumber, setHandsNumber] = useState(initialHands);
   const [hands, setHands] = useState();
 
-  function play() {
-    setHands(dealCards(handsNumber, cardsPerHand));
-  }
-
+  // Restart the game whenever the user changes the number of hands (players)
   useEffect(play, [handsNumber]);
 
   function buildWinnerString(winners) {
@@ -36,6 +33,10 @@ function App() {
     }
   }
 
+  function play() {
+    setHands(dealCards(handsNumber, cardsPerHand));
+  }
+
   function addHand() {
     setHandsNumber(handsNumber + 1);
   }
@@ -46,40 +47,38 @@ function App() {
 
   return (
     <div className="App">
-      {hands &&
-        hands.map((hand, i) => (
-          <Fragment key={hand.cards}>
-            <h2>Player {i + 1}:</h2>
-            <Hand cards={hand.cards} colors={hand.colors} />
-            <br />
-            Pairs: {hand.colors.filter((c) => c !== undefined).length / 2}
-          </Fragment>
-        ))}
+      <main>
+        {/* Might want to have semantically correct ul & li's here, but we'll ignore that for now */}
+        {hands &&
+          hands.map((hand, i) => <Player key={i} hand={hand} number={i + 1} />)}
 
-      <h2 className="winnerString">{buildWinnerString(getWinner(hands))}</h2>
+        <hr />
+        <h2 className="winnerString">{buildWinnerString(getWinners(hands))}</h2>
+      </main>
+      <footer>
+        <div>
+          <button
+            onClick={addHand}
+            disabled={handsNumber >= maxHands}
+            className="change-hands-number-button"
+          >
+            Add a hand
+          </button>
+          <button
+            onClick={removeHand}
+            disabled={handsNumber <= minHands}
+            className="change-hands-number-button"
+          >
+            Remove a hand
+          </button>
+        </div>
 
-      <div>
-        <button
-          onClick={addHand}
-          disabled={handsNumber >= maxHands}
-          className="change-hands-number-button"
-        >
-          Add a hand
-        </button>
-        <button
-          onClick={removeHand}
-          disabled={handsNumber <= minHands}
-          className="change-hands-number-button"
-        >
-          Remove a hand
-        </button>
-      </div>
-
-      <div>
-        <button className="play-button" onClick={() => play()}>
-          Deal Cards
-        </button>
-      </div>
+        <div>
+          <button className="play-button" onClick={play}>
+            Deal Cards
+          </button>
+        </div>
+      </footer>
     </div>
   );
 }

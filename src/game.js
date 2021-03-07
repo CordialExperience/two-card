@@ -1,73 +1,48 @@
 import { Deck } from "./deck";
-import { getNewColor } from "./colors";
-
-// export function identifyPairs(hand) {
-//   const map = new Map();
-//   const colors = getNewColor();
-//   const assignedColors = [];
-//   let pairs = 0;
-
-//   for (let [i, [, value]] of hand.entries()) {
-//     if (!map.has(value)) {
-//       map.set(value, i);
-//     } else {
-//       const color = colors.next().value;
-//       assignedColors[map.get(value)] = color;
-//       assignedColors[i] = color;
-//       pairs++;
-//       map.delete(value);
-//     }
-//   }
-
-//   return [assignedColors, pairs];
-// }
+import { createColorGenerator } from "./colors";
 
 export function dealCards(handsNumber, cardsPerHand) {
   const deck = new Deck();
   const hands = [];
+  const cardsThatExist = [];
+  const colorGenerators = [];
 
   // In real-life games, we draw cards by 1 for each player.
-  // We emulate the same process here (might be useful if we want to add animations later)
+  // We emulate the same process here (might be useful if we want to add something like animations later).
+  // A simpler approach would be to simply deal 7 cards to player 0, then deal 7 cards to player 1 etc.
   for (let cardI = 0; cardI < cardsPerHand; cardI++) {
     for (let handI = 0; handI < handsNumber; handI++) {
       if (hands[handI] === undefined) {
-        hands[handI] = { cards: [] };
+        hands[handI] = { cards: [], colors: [], pairs: 0 };
+        cardsThatExist[handI] = new Map();
+        colorGenerators[handI] = createColorGenerator();
       }
 
-      hands[handI].cards.push(deck.drawRandomCard());
+      const hand = hands[handI];
 
-      // Technically, we could use this same loop to find pairs, and such approach be more performant.
-      // But conceptually it might make more sense to decouple the logic and deal the cards first, and only start identifying pairs afterwards.
-    }
-  }
+      const newCard = deck.drawRandomCard();
+      hand.cards.push(newCard);
+      const [, newCardValue] = newCard;
 
-  // TODO!!!!!!!!
-  for (let hand of hands) {
-    const map = new Map();
-    const colors = getNewColor();
-    const assignedColors = [];
-    let pairs = 0;
-
-    for (let [i, [, value]] of hand.cards.entries()) {
-      if (!map.has(value)) {
-        map.set(value, i);
+      if (!cardsThatExist[handI].has(newCardValue)) {
+        cardsThatExist[handI].set(newCardValue, cardI);
       } else {
-        const color = colors.next().value;
-        assignedColors[map.get(value)] = color;
-        assignedColors[i] = color;
-        pairs++;
-        map.delete(value);
+        const color = colorGenerators[handI].next().value;
+        hand.colors[cardsThatExist[handI].get(newCardValue)] = color;
+        hand.colors[cardI] = color;
+        hand.pairs++;
+        cardsThatExist[handI].delete(newCardValue);
       }
-    }
 
-    hand.colors = assignedColors;
-    hand.pairs = pairs;
+      // Conceptually it might make more sense to decouple the logic and deal the cards first, and only start identifying pairs afterwards.
+      // But for this game we may do everything in a single loop
+    }
   }
 
   return hands;
 }
 
-export function getWinner(hands) {
+export function getWinners(hands) {
   if (hands === undefined) {
     return;
   }
