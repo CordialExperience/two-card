@@ -3,6 +3,9 @@ import Card from "./Card";
 
 import './Hand.css';
 
+/**
+ * Shows the hand's cards (but not the additional info about the player)
+ */
 export default function Hand({ cards, colors }) {
   return (
     <div className="Hand">
