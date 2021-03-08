@@ -1,27 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Player, Footer } from "./components";
 import {
-  getMaxValueIndices,
   dealCards,
   maxHands,
   minHands,
   initialHands,
   cardsPerHand,
+  buildWinnerString
 } from "./logic";
 
 import "./App.css";
-
-function buildWinnerString(winners, totalHandsNumber) {
-  if (winners.length === 1) {
-    return `Player ${winners[0] + 1} wins!`;
-  } else if (winners.length < totalHandsNumber) {
-    return (
-      `Players ` + winners.map((i) => i + 1).join(", ") + ` are the winners!`
-    );
-  } else {
-    return `Tie! No winners.`;
-  }
-}
 
 function App() {
   const [handsNumber, setHandsNumber] = useState(initialHands);
@@ -52,10 +40,7 @@ function App() {
           ))}
           <hr />
           <h2 className="winnerString">
-            {buildWinnerString(
-              getMaxValueIndices(hands.map((h) => h.pairs)),
-              handsNumber
-            )}
+            {buildWinnerString(hands)}
           </h2>
         </main>
       )}

@@ -29,6 +29,7 @@ jest.mock(
 
 jest.mock("./logic", () => {
   return {
+    buildWinnerString: jest.fn(),
     dealCards: jest.fn(),
     getMaxValueIndices: () => {
       return [1];
