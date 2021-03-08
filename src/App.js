@@ -60,12 +60,12 @@ function App() {
         </main>
       )}
       <Footer
+        handsNumber={handsNumber}
+        minHands={minHands}
+        maxHands={maxHands}
         addHand={addHand}
         removeHand={removeHand}
         play={play}
-        handsNumber={handsNumber}
-        maxHands={maxHands}
-        minHands={minHands}
       />
     </div>
   );
