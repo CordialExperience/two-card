@@ -2,7 +2,7 @@ import { getMaxValueIndices } from "./getMaxValueIndices";
 
 describe("logic/getMaxValueIndices", () => {
   describe("in case of duplicate max value", () => {
-    it("should return indices of the array's max value occurences", () => {
+    it("should return indices of the array's max value occurrences", () => {
       expect(getMaxValueIndices([6, 2, 34, 3, 7, 2, 57, 3, 57])).toEqual([
         6,
         8,
@@ -11,7 +11,7 @@ describe("logic/getMaxValueIndices", () => {
   });
 
   describe("in case of all equal values", () => {
-    it("should return indices of the array's max value occurences", () => {
+    it("should return indices of the array's max value occurrences", () => {
       expect(getMaxValueIndices([6, 6, 6, 6, 6, 6, 6, 6, 6])).toEqual([
         0,
         1,

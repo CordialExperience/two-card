@@ -1,12 +1,12 @@
-export function getMaxValueIndices(handsPairs) {
-  if (handsPairs.length === 0) {
+export function getMaxValueIndices(values) {
+  if (values.length === 0) {
     return [];
   }
 
   const scoreMap = new Map();
 
-  for (let i = 0; i < handsPairs.length; i++) {
-    const pairs = handsPairs[i];
+  for (let i = 0; i < values.length; i++) {
+    const pairs = values[i];
     if (!scoreMap.has(pairs)) {
       scoreMap.set(pairs, [i]);
     } else {
