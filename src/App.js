@@ -1,43 +1,57 @@
-import React from 'react';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { Player, Footer } from "./components";
+import {
+  dealCards,
+  maxHands,
+  minHands,
+  initialHands,
+  cardsPerHand,
+  buildWinnerString
+} from "./logic";
+
+import "./App.css";
 
 function App() {
+  const [handsNumber, setHandsNumber] = useState(initialHands);
+  const [hands, setHands] = useState();
+
+  // Restart the game whenever the user changes the number of hands (players)
+  useEffect(play, [handsNumber]);
+
+  function play() {
+    setHands(dealCards(handsNumber, cardsPerHand));
+  }
+
+  function addHand() {
+    setHandsNumber(handsNumber + 1);
+  }
+
+  function removeHand() {
+    setHandsNumber(handsNumber - 1);
+  }
+
   return (
     <div className="App">
-
-      <h1>Instructions:</h1>
-      <p>
-        Create a mini game where clicking the button generates several hand cards.<br />
-        Please be sure to fork this repo and update the readme file with your notes.
-      </p>
-      <ul>
-        <li>A hand has 7 cards</li>
-        <li>The winner of the game will be by the amount of pairs a hand has</li>
-        <li>Each "deal" will create a brand new "game" with new hands</li>
-        <li>Display those hands</li>
-        <li>Mark each hand "pairs" with proper border. Be sure diff pair has diff border</li>
-        <li>Game has two hands by default</li>
-        <li>Organized code</li>
-      </ul>
-      <h5>Extra</h5>
-      <ul>
-        <li>option to add or remove hands 2-4</li>
-        <li>Tests</li>
-      </ul>
-
-      <h2>Helpers</h2>
-      <div>
-        <h4>Example Card:</h4>
-        <img src="http://h3h.net/images/cards/diamond_3.svg" alt="example card" className="card" />
-      </div>
-
-      <div>
-        <h4>Deal Button:</h4>
-        <button className="play-button">
-          Deal Cards
-        </button>
-      </div>
-
+      {hands && (
+        <main>
+          {/* Might want to have semantically correct ul & li's here, but we'll ignore that for now */}
+          {hands.map((hand, i) => (
+            <Player key={i} hand={hand} number={i + 1} />
+          ))}
+          <hr />
+          <h2 className="winnerString">
+            {buildWinnerString(hands)}
+          </h2>
+        </main>
+      )}
+      <Footer
+        handsNumber={handsNumber}
+        minHands={minHands}
+        maxHands={maxHands}
+        addHand={addHand}
+        removeHand={removeHand}
+        play={play}
+      />
     </div>
   );
 }

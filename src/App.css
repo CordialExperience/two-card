@@ -1,0 +1,22 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.App hr {
+  margin: 40px;
+}
+
+.App .winnerString {
+  text-align: center;
+}
+
+.App main {
+  flex: 1 0 auto;
+}
+.App footer {
+  flex-shrink: 0;
+  text-align: center;
+  padding-bottom: 30px;
+}
