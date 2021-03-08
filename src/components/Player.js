@@ -3,6 +3,9 @@ import Hand from "./Hand";
 
 import "./Player.css";
 
+/**
+ * Shows player's hand, along with the player's name and information about the pairs in the hand.
+ */
 export default function Player({ hand, number }) {
   return (
     <div className="Player" key={hand.cards}>

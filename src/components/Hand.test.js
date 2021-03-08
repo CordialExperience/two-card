@@ -1,7 +1,7 @@
 import React from "react";
 import Hand from "./Hand";
 import Card from "./Card";
-import { queryAllByTestId, render, screen } from "@testing-library/react";
+import { queryAllByTestId, render } from "@testing-library/react";
 
 jest.mock("./Card", () => ({ suit, value, color }) => {
   return (
